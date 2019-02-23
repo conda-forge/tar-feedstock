@@ -1,6 +1,6 @@
 {% set name = "tar" %}
-{% set version = "1.29" %}
-{% set sha256 = "cae466e6e58c7292355e7080248f244db3a4cf755f33f4fa25ca7f9a7ed09af0" %}
+{% set version = "1.32" %}
+{% set sha256 = "b59549594d91d84ee00c99cf2541a3330fed3a42c440503326dab767f2fbb96c" %}
 
 package:
   name: {{ name|lower }}
@@ -12,7 +12,7 @@ source:
   sha256: {{ sha256 }}
 
 build:
-  number: 1
+  number: 0
   script: FORCE_UNSAFE_CONFIGURE=1 ./configure --prefix=$PREFIX && make && make check && make install
   skip: True  # [win]
 
