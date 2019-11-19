@@ -13,7 +13,6 @@ source:
 
 build:
   number: 1
-  script: mkdir -p $PREFIX/lib && FORCE_UNSAFE_CONFIGURE=1 ./configure --prefix=$PREFIX && make && make check && make install && make installcheck
   skip: True  # [win]
 
 requirements:
