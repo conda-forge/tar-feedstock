@@ -1,0 +1,81 @@
+From 14f00a2c7adefcbe50e85f6bf2ebce922e0dceb0 Mon Sep 17 00:00:00 2001
+From: Sergey Poznyakoff <gray@gnu.org>
+Date: Mon, 25 Nov 2019 08:01:04 +0200
+Subject: Testsuite fixes
+
+* tests/sparse06.at: Skip the test if genfile is unable to create
+sparse files.
+* tests/sptrcreat.at: Likewise.
+* tests/sptrdiff00.at: Likewise.
+* tests/sptrdiff01.at: Likewise.
+---
+ tests/sparse06.at   | 4 ++--
+ tests/sptrcreat.at  | 2 +-
+ tests/sptrdiff00.at | 2 +-
+ tests/sptrdiff01.at | 2 +-
+ 4 files changed, 5 insertions(+), 5 deletions(-)
+
+diff --git a/tests/sparse06.at b/tests/sparse06.at
+index 650b4f5..ceb5abb 100644
+--- a/tests/sparse06.at
++++ b/tests/sparse06.at
+@@ -23,7 +23,7 @@ AT_KEYWORDS([sparse sparse06 chdir])
+ 
+ m4_define([check_pattern],[
+ rm -rf out archive.tar smallsparse && mkdir out
+-genfile --sparse --quiet --file smallsparse $1
++genfile --sparse --quiet --file smallsparse $1 || AT_SKIP_TEST
+ tar -cSf archive.tar smallsparse
+ tar -xf archive.tar -C out
+ cmp smallsparse out/smallsparse
+@@ -33,7 +33,7 @@ AT_TAR_CHECK([
+ AT_SEEKHOLE_PREREQ
+ 
+ TAR_OPTIONS="$TAR_OPTIONS --hole-detection=seek"
+-genfile --sparse --file bigsparse 0 ABC 8G DEF
++genfile --sparse --file bigsparse 0 ABC 8G DEF || AT_SKIP_TEST
+ tar -cSf a bigsparse
+ test $? -eq 0 || exit 1
+ 
+diff --git a/tests/sptrcreat.at b/tests/sptrcreat.at
+index 2c730cc..d913ddf 100644
+--- a/tests/sptrcreat.at
++++ b/tests/sptrcreat.at
+@@ -35,7 +35,7 @@ AT_KEYWORDS([truncate filechange sparse sptr sptrcreat])
+ 
+ AT_TAR_CHECK([
+ genfile --sparse --block-size=1024 --file foo \
+-  0 ABCDEFGHIJ 1M ABCDEFGHIJ 10M ABCDEFGHIJ 200M ABCDEFGHIJ
++  0 ABCDEFGHIJ 1M ABCDEFGHIJ 10M ABCDEFGHIJ 200M ABCDEFGHIJ || AT_SKIP_TEST
+ genfile --file baz
+ genfile --run --checkpoint 3 --length 200m --truncate foo -- \
+  tar --sparse -vcf bar foo baz
+diff --git a/tests/sptrdiff00.at b/tests/sptrdiff00.at
+index 990c6fa..482e9e5 100644
+--- a/tests/sptrdiff00.at
++++ b/tests/sptrdiff00.at
+@@ -29,7 +29,7 @@ AT_KEYWORDS([truncate filechange sparse sptr sptrdiff diff])
+ # This triggers short read in check_sparse_region.
+ AT_TAR_CHECK([
+ genfile --sparse --block-size=1024 --file foo \
+-  0 ABCDEFGHIJ 1M ABCDEFGHIJ 10M ABCDEFGHIJ 200M ABCDEFGHIJ
++  0 ABCDEFGHIJ 1M ABCDEFGHIJ 10M ABCDEFGHIJ 200M ABCDEFGHIJ || AT_SKIP_TEST
+ genfile --file baz
+ echo creating
+ tar --sparse -vcf bar foo baz
+diff --git a/tests/sptrdiff01.at b/tests/sptrdiff01.at
+index fcada14..81232a1 100644
+--- a/tests/sptrdiff01.at
++++ b/tests/sptrdiff01.at
+@@ -29,7 +29,7 @@ AT_KEYWORDS([truncate filechange sparse sptr sptrdiff diff])
+ # This triggers short read in check_data_region.
+ AT_TAR_CHECK([
+ genfile --sparse --block-size=1024 --file foo \
+-  0 ABCDEFGHIJ 1M ABCDEFGHIJ 10M ABCDEFGHIJ 200M ABCDEFGHIJ
++  0 ABCDEFGHIJ 1M ABCDEFGHIJ 10M ABCDEFGHIJ 200M ABCDEFGHIJ || AT_SKIP_TEST
+ genfile --file baz
+ echo creating
+ tar --sparse -vcf bar foo baz
+-- 
+cgit v1.0-41-gc330
+
