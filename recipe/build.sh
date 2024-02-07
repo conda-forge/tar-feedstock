@@ -23,7 +23,7 @@ make install
 if [[ "${CONDA_BUILD_CROSS_COMPILATION:-0}" != "1" ]]; then
   # There are some known issues on older macOS releases
   if [[ "$target_platform" == "osx-64" ]]; then
-    make installcheck "TESTSUITEFLAGS=-j${CPU_COUNT} 1-50 52-88 90-237" || (cat tests/testsuite.log; exit 1)
+    make installcheck "TESTSUITEFLAGS=-j${CPU_COUNT} 1-50 52-88 90-237" || (cat tests/testsuite.log; exit 1)
   else
     make installcheck || (cat tests/testsuite.log; exit 1)
   fi
