@@ -8,6 +8,8 @@ package:
 source:
   url: http://ftp.gnu.org/gnu/{{ name }}/{{ name }}-{{ version }}.tar.xz
   sha256: 4d62ff37342ec7aed748535323930c7cf94acf71c3591882b26a7ea50f3edc16
+  patches:
+    - 0001-Add-liconv-at-the-end-of-the-link-line.patch
 
 build:
   number: 0
