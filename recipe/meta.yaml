@@ -16,9 +16,10 @@ build:
 requirements:
   build:
     - {{ compiler('c') }}
-    - make
-    - pkg-config
-    - gnuconfig
+    - make          # [unix]
+    - pkg-config    # [unix]
+    - gnuconfig     # [unix]
+    - autotools_clang_conda  # [win]
   host:
     - libiconv
 test:
