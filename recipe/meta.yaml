@@ -14,11 +14,12 @@ build:
 
 requirements:
   build:
-    - {{ compiler('c') }}
+    - {{ compiler('c') }}  # [unix]
+    - {{ compiler('m2w64_c') }}  # [win]
+    - posix                      # [win]
     - make          # [unix]
     - pkg-config    # [unix]
     - gnuconfig     # [unix]
-    - autotools_clang_conda  # [win]
   host:
     - libiconv
 test:
