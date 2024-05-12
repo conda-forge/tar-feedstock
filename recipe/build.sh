@@ -11,15 +11,20 @@ if [[ "$target_platform" == osx-* ]]; then
   export gl_cv_func_getcwd_abort_bug=no
 fi
 
-./configure --prefix=$PREFIX
+# iconv is detected during configure process but -liconv is missing
+# from LDFLAGS as of gnu-tar 1.35. Remove once iconv linking works
+# without this. See https://savannah.gnu.org/bugs/?64441.
+# fix commit, http://git.savannah.gnu.org/cgit/tar.git/commit/?id=8632df39, remove in next release
+export LDFLAGS="$LDFLAGS -liconv"
+./configure --prefix=$PREFIX --with-libiconv-prefix=$PREFIX
 make -j${CPU_COUNT}
 make install
 
 if [[ "${CONDA_BUILD_CROSS_COMPILATION:-0}" != "1" ]]; then
   # There are some known issues on older macOS releases
   if [[ "$target_platform" == "osx-64" ]]; then
-    make installcheck "TESTSUITEFLAGS=-j${CPU_COUNT} 1-50 52-88 90-237"
+    make installcheck "TESTSUITEFLAGS=-j${CPU_COUNT} 1-50 52-88 90-237" || (cat tests/testsuite.log; exit 1)
   else
-    make installcheck
+    make installcheck || (cat tests/testsuite.log; exit 1)
   fi
 fi
