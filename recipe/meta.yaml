@@ -11,14 +11,15 @@ source:
 
 build:
   number: 1
-  skip: true  # [win]
 
 requirements:
   build:
-    - {{ compiler('c') }}
-    - make
-    - pkg-config
-    - gnuconfig
+    - {{ compiler('c') }}  # [unix]
+    - {{ compiler('m2w64_c') }}  # [win]
+    - posix                      # [win]
+    - make          # [unix]
+    - pkg-config    # [unix]
+    - gnuconfig     # [unix]
   host:
     - libiconv
 test:
