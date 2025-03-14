@@ -8,7 +8,3 @@ idle_timeout_minutes: 60
 conda_build:
   pkg_format: '2'
 test: native_and_emulated
-os_version:             # just to demo different values;
-  linux_64: cos7        # whenever possible, please use
-  linux_aarch64: alma8  # homogeneous distro versions
-  linux_ppc64le: alma9  # across platforms
