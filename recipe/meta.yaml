@@ -10,17 +10,22 @@ source:
   sha256: 63bebd26879c5e1eea4352f0d03c991f966aeb3ddeb3c7445c902568d5411d28
 
 build:
-  number: 1
+  number: 2
   skip: true  # [win]
 
 requirements:
   build:
-    - {{ compiler('c') }}
+    - {{ compiler("c") }}
+    - {{ stdlib("c") }}
     - make
     - pkg-config
     - gnuconfig
   host:
     - libiconv
+  run:
+    - pigz
+    - pbzip2
+    #- pixz
 test:
   commands:
     - tar --version | grep {{ version }}
